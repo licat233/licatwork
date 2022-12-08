@@ -1,0 +1,56 @@
+{include file="common/header" /}
+<style>
+.checkstyle{
+            -webkit-transform: translateY(-3px);
+            -ms-transform: translateY(-3px);
+            transform: translateY(-3px);
+            box-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 4px #333;
+            color: #ffffff !important;
+        }
+.markstyle{
+    color: #D0CECE!important;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #fff;
+}
+  tr:hover,tr:active{
+    border: 1px solide #00E6FF;
+    -webkit-transform: translateY(-3px);
+    -ms-transform: translateY(-3px);
+    transform: translateY(-3px);
+    box-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 4px #333;
+    color: #ffffff !important;
+  }
+</style>
+<table class="layui-hide" id="user" lay-filter="user"></table>
+
+<script type="text/html" id="probstyle">
+{{Math.round(d.prob_PCT*100)/100+"%"}}
+</script>
+
+<script type="text/html" id="paasstyle">
+{if $power !== 1}
+<span style="text-align: center;">{{d.paas_name.split("<=")[0]}}</span><small style="color: #D0CECE!important;"><=</small><small class=markstyle>{{d.paas_name.split("<=")[1]}}</small>
+{/if}
+</script>
+
+<script type="text/html" id="namestyle">
+<span style="color:{{d.color}}">{{d.name}}</span>
+</script>
+
+<script type="text/html" id="accountstyle">
+<span style="color:{{d.color}}">{{d.account}}</span>
+</script>
+
+<script type="text/html" id="fansstyle">
+<b style="color:{{d.color}}" id={{d.account}}></b>
+</script>
+<script>
+{if $power === 1}
+window.isVisitor = true;
+{/if}
+</script>
+<script src="/static/js/fans.js?update=2020.11.20"></script>
+
+
+{include file="common/footer" /}

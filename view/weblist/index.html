@@ -1,0 +1,65 @@
+{include file="common/header" /}
+<div style="max-width:800px;margin:auto;padding:auto;">
+<script src="/static/js/weblist.js"></script>
+<table id="web" lay-filter="web"></table>
+<div style="width:100%; margin: 0 0 20px 0;">
+      <button type="button" onclick='addweburl()' class="layui-btn layui-btn-fluid">添加链接</button>
+</div>
+<!--编辑链接窗口-->
+<div class="site-text" style="margin: 5%; display: none" id="editwebwindow">
+  <button type="button" style="float: right;" onclick="javascript:deleteweb()" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger">删除链接</button>
+  <!-- <hr class="layui-bg-gray"> -->
+  <form class="layui-form" action="">
+      <!-- <label>ID：</label>
+      <br/> -->
+          <input type="text" id="editid" name="editid" style="width:40px;display: none;" class="layui-input" disabled>
+        <!-- <hr class="layui-bg-gray"> -->
+    <label>链接：</label> 
+    <br/>
+        <input type="text" id="editurl" name="editurl" class="layui-input">
+      <hr class="layui-bg-gray">
+      <div class="layui-form-item">
+          <label class="layui-form-label">所属平台：</label>
+          <div class="layui-form-block">
+            <select name="editpaas_id" id="editpaas_id" lay-filter="editpaas_id">
+              <!-- <option value="no" selected>不修改</option> -->
+              {foreach $paas_name as $key=>$pn}
+              <option value="{$key}">{$pn}</option>
+              {/foreach}
+            </select>
+          </div>
+        </div>
+      <hr class="layui-bg-gray">
+    <label>JS插件：</label>
+    <br/>
+    <textarea type="text"  id="editplugin" name="editplugin" class="layui-textarea"></textarea>
+          </form>
+</div>
+<!--END编辑链接窗口-->
+<!--添加链接窗口-->
+<div class="site-text" style="margin: 5%; display: none" id="addwebwindow">
+  <!-- <hr class="layui-bg-gray"> -->
+  <form class="layui-form" action="">
+    <label>链接：</label> 
+    <br/>
+        <input type="text" id="addurl" class="layui-input">
+      <hr class="layui-bg-gray">
+      <div class="layui-form-item">
+          <label class="layui-form-label">所属平台：</label>
+          <div class="layui-form-block">
+            <select id="addpaas_id">
+              {foreach $paas_name as $key=>$pn}
+              <option value="{$key}">{$pn}</option>
+              {/foreach}
+            </select>
+          </div>
+        </div>
+      <hr class="layui-bg-gray">
+    <label>JS插件：</label>
+    <br/>
+    <textarea type="text"  id="addplugin" class="layui-textarea"></textarea>
+          </form>
+</div>
+<!--END添加链接窗口-->
+</div>
+{include file="common/footer" /}

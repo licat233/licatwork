@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>享购工作台</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <script type="text/javascript" src="/static/win10ui/js/jquery-2.2.4.min.js"></script>
+    <link href="/static/win10ui/css/animate.css" rel="stylesheet">
+    <script type="text/javascript" src="/static/win10ui/component/layer-v3.0.3/layer/layer.js"></script>
+    <link rel="stylesheet" href="/static/win10ui/component/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="/static/win10ui/css/default.css" rel="stylesheet">
+    <link href="/static/win10ui/css/bg.css" rel="stylesheet">
+    <script type="text/javascript" src="/static/win10ui/js/win10.js"></script>
+    <script type="text/javascript" src="/static/win10ui/js/diy.js"></script>
+    
+    <style>
+        * {
+            font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+        }
+
+        /*磁贴自定义样式*/
+         .win10-block-content-text {
+             line-height: 44px;
+             text-align: center;
+             font-size: 16px;
+         }
+      .myico{
+        margin:0px;
+        padding:0px;
+        width:25px;
+        height:25px;
+      }
+      .img_cont {
+    background-position: center;
+    background-size: cover;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    position: fixed;
+    /*background-image: url(https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wEae?ver=34a1);*/
+    opacity: 1;
+}
+      .shaders {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+.shaders .topLeft {
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom left,rgba(0,0,0,.5) -20%,transparent 30%);
+}
+.shaders .topRight {
+    right: 0;
+    width: 100%;
+    background: linear-gradient(to bottom right,rgba(0,0,0,.5) -20%,transparent 30%);
+}
+.shaders .bottom {
+    background: linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.6) 100%);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+      .shaders .topLeft, .shaders .topRight, .shaders .bottom {
+    height: 28%;
+    position: absolute;
+}
+    </style>
+    <script>
+   var deskStatusid = 0;
+        Win10.onReady(function () {
+
+            //设置壁纸
+          /*   Win10.setBgUrl({
+                 main: '/static/win10ui/img/wallpapers/sky.jpg',
+                 mobile: '/static/win10ui/img/wallpapers/sky.jpg',
+             }); */
+
+            Win10.setAnimated([
+                'animated flip',
+                'animated bounceIn',
+            ], 0.01);
+        });
+    </script>
+</head>
+<body>
+  <div class="img_cont"><div class="shaders"><div class="topLeft"></div><div class="topRight"></div><div class="bottom"></div></div></div>
+<!--  <div class="bg0 pa">-->
+<!--	<div class="bg1">享购</div>-->
+<!--</div>-->
+{if condition="$device=='pc'"}
+<!--div class="hx-box pa">
+	<ul class="pr">
+		<li class="hx-k1 pa0">
+			<span></span>
+		</li>
+		<li class="hx-k2 pa0">
+			<span></span>
+		</li>
+		<li class="hx-k3 pa0">
+			<span></span>
+		</li>
+	</ul>
+</div-->
+  {/if}
+<div id="win10" style="background:unset">
+    <div class="desktop">
+        <div id="win10-shortcuts" class="shortcuts-hidden">
+          {if condition="($power == 7) OR ($power == 5)"}
+            <div class="shortcut" onclick="Win10.openUrl('./userlist',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/userlist.png\'/>业务号管理')">
+                <img class="icon userlist" src="/static/win10ui/img/icon/userlist.png"/>
+                <div class="title">业务号管理</div>
+            </div>
+          
+            <div class="shortcut" onclick="Win10.openUrl('./fans',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/linefans.png\'/>Line@粉丝数')">
+                <img class="icon fansnum" src="/static/win10ui/img/icon/linefans.png"/>
+                <div class="title">Line@粉丝数</div>
+            </div>
+           <div class="shortcut" onclick="Win10.openUrl('./paaslist',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/paas.png\'/>平台管理')">
+                <img class="icon paaslist" src="/static/win10ui/img/icon/paas.png"/>
+                <div class="title">平台管理</div>
+            </div>
+            {/if}
+          
+            {if condition="$power == 7"}
+            <div class="shortcut" onclick="Win10.openUrl('./weblist',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/allweb.png\'/>落地页列表')">
+                <img class="icon adurl" src="/static/win10ui/img/icon/allweb.png"/>
+                <div class="title">落地页URL</div>
+            </div>
+          
+           <div class="shortcut" onclick="Win10.openUrl('https://docs.qq.com/blankpage/DRUV0ZlZWQnlMY09a',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/stat.png\'/>消耗统计')">
+                <img class="icon" src="/static/win10ui/img/icon/stat.png"/>
+                <div class="title">消耗统计</div>
+            </div>
+          
+            <div class="shortcut" onclick="Win10.openUrl('https://www.talkskin.net',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/kangshuai.ico\'/>抗衰官网')">
+                <img class="icon" src="/static/win10ui/img/icon/kangshuai.ico"/>
+                <div class="title">抗衰官网</div>
+            </div>
+          
+            <div class="shortcut" onclick="Win10.openUrl('https://www.baidu.com',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/baidu.png\'/>百度一下')">
+                <img class="icon" src="/static/win10ui/img/icon/baidu.png"/>
+                <div class="title">百度一下</div>
+            </div>
+            
+            <!--<div class="shortcut" onclick="window.open('https://www.51.la','_blank')">-->
+            <!--    <img class="icon" src="/static/win10ui/img/icon/51la.ico"/>-->
+            <!--    <div class="title">51LA</div>-->
+            <!--</div>-->
+            
+            <div class="shortcut" onclick="Win10.openUrl('/shop_order','<img class=\'icon\' src=\'/static/win10ui/img/icon/shop.png\'/>享购订单')">
+                <img class="icon" src="/static/win10ui/img/icon/shop.png"/>
+                <div class="title">享购订单</div>
+            </div>
+          
+          {if condition="($power == 7) OR ($power == 5)"}
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/websafe',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/jiankong.png\'/>WEB被盗日志')">
+                <img class="icon websafelog" src="/static/win10ui/img/icon/jiankong.png"/>
+                <div class="title">WEB被盗日志</div>
+            </div>
+          
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/login_error_log',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/loginlog.png\'/>登录失敗日志')">
+                <img class="icon loginfaillog" src="/static/win10ui/img/icon/loginlog.png"/>
+                <div class="title">登录失敗日志</div>
+            </div>
+          {/if}
+          
+           {/*<div class="shortcut" onclick="jiechiSET()"><img class="icon" src="/static/win10ui/img/icon/TZswitch.png"/><div class="title">流量劫持</div></div>*/}
+          
+           <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/user_comments',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/usercomment.png\'/>网友留言')">
+                <img class="icon usercomments" src="/static/win10ui/img/icon/usercomment.png"/>
+                <div class="title">网友留言</div>
+            </div>
+          {/if}
+          
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/index/adweblist','<img class=\'icon\' src=\'/static/win10ui/img/icon/adweblist.png\'/>享购广告落地页集合')">
+                <img class="icon adcollect" src="/static/win10ui/img/icon/adweblist.png"/>
+                <div class="title">落地页集合</div>
+            </div>
+          
+          {if condition="($power == 7) OR ($power == 5)"}
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/userswitch',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/lineswitch.png\'/>业务号切换记录')">
+                <img class="icon idswitchlog" src="/static/win10ui/img/icon/lineswitch.png"/>
+                <div class="title">业务号切换记录</div>
+            </div>
+          
+            <div class="shortcut" onclick="webonlinenum()">
+                <img class="icon onlinenum" src="/static/win10ui/img/icon/onlinenum.png"/>
+                <div class="title">实时在线人数</div>
+            </div>
+          
+            <!--<div class="shortcut" onclick="popincharge()">-->
+            <!--    <img class="icon popcharge" src="/static/win10ui/img/icon/money.png"/>-->
+            <!--    <div class="title">POPin实时消耗</div>-->
+            <!--</div>-->
+          
+            <!--<div class="shortcut" onclick="linecharge()">-->
+            <!--    <img class="icon linecharge" src="/static/win10ui/img/icon/linemoney.png"/>-->
+            <!--    <div class="title">Line实时消耗</div>-->
+            <!--</div>-->
+          {/if}
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/index/newestlist','<img class=\'icon\' src=\'/static/win10ui/img/icon/nowweb.png\'/>在跑落地页')">
+                <img class="icon" src="/static/win10ui/img/icon/nowweb.png"/>
+                <div class="title">在跑落地页</div>
+            </div>
+          
+            <div class="shortcut" onclick="autoFullScreen()">
+                <img class="icon" src="/static/win10ui/img/icon/quanpin.png"/>
+                <div class="title">全屏</div>
+            </div>
+          
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/page_center','<img class=\'icon\' src=\'/static/win10ui/img/icon/pagecenter.png\'/>页面中心')">
+                <img class="icon" src="/static/win10ui/img/icon/pagecenter.png"/>
+                <div class="title">页面中心</div>
+            </div>
+            
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/skinpaper','<img class=\'icon\' src=\'/static/win10ui/img/icon/searchpaper.png\'/>肌肤测试卷')">
+                <img class="icon" src="/static/win10ui/img/icon/searchpaper.png"/>
+                <div class="title">肌肤测试卷</div>
+            </div>
+          
+        </div>
+        <div id="win10-desktop-scene"></div>
+    </div>
+    <div id="win10_command_center" style="display:none">
+        <div class="title">
+            <h4 style="float: left">更新日志 </h4>
+            <span id="win10_btn_command_center_clean_all">全部清除</span>
+        </div>
+        <div class="msgs">
+          {volist name="updatelog" id="vo"}
+          {$vo}<br/>
+          {/volist}
+      </div>
+    </div>
+    <div id="win10_task_bar">
+        <div id="win10_btn_group_left" class="btn_group">
+            <div id="win10_btn_win_new" class="btn"><span class="fa fa-windows"></span></div>
+            <div class="btn" id="win10-btn-browser"><span class="fa fa-internet-explorer"></span></div>
+        </div>
+        <div id="win10_btn_group_middle" class="btn_group"></div>
+        <div id="win10_btn_group_right" class="btn_group">
+            <div class="btn" id="win10_btn_time"></div>
+            <div class="btn" id="win10_btn_command"><span id="win10-msg-nof" class="fa fa-comment-o"></span></div>
+            <div class="btn" id="win10_btn_show_desktop"></div>
+        </div>
+    </div>
+</div>
+<!--plugin-->
+  {if condition="$device=='pc'"}
+  <!--
+  <script type="text/javascript" src="/static/win10ui/js/L2Dwidget.min.js?update=2020.12.24.1"></script>
+  <script>
+  L2Dwidget
+        .on('*', (name) => {
+          console.log('%c EVENT ' + '%c -> ' + name, 'background: #222; color: yellow', 'background: #fff; color: #000')
+        })
+        .init({
+          dialog: {
+            // 开启对话框
+            enable: true,
+            script: {
+              // 每空闲 10 秒钟，显示一条一言
+              'every idle 10s': '$hitokoto$',
+              'hover .userlist': '关于业务号的所有操作 (*/ω＼*)',
+              'hover .fansnum': '这个是查看line@粉丝数的',
+              'hover .paaslist': '这个里面有很多平台，也叫渠道 (*/ω＼*)',
+              'hover .adurl': '想管理现有的url链接，就点进去吧 (*/ω＼*)',
+              'hover .loginfaillog': '这里记录着哪个家伙又输错登录密码了，输错10次以上将会被封锁IP (*/ω＼*)',
+              'hover .websafelog': '落地页估计又被盗了，看是谁盗的 (*/ω＼*)',
+              'hover .usercomments': '网友的留言都在这里面，看看网友都说了些什么 (*/ω＼*)',
+              'hover .idswitchlog': '可以查看业务号调整记录，方便统计加粉数 (*/ω＼*)',
+              'hover .adcollect': '这里面有我们收集的落地页，会不定期更新 (*/ω＼*)',
+              'hover .onlinenum': '落地页在线人数，看看有没有人在浏览我们的广告 (*/ω＼*)',
+              'hover .popcharge': 'POPin的活动消耗，快看看成本怎么样了 (*/ω＼*)',
+              'hover .linecharge': 'Line渠道的消耗，快看看消耗多少钱了 (*/ω＼*)',
+              'tap body': '哎呀！别碰我！',
+              // 当触摸到角色头部
+              'tap face': '人家已经不是小孩子了！'
+            }
+          }
+        });
+ function jiechiSET() {
+  var btnhtml = '<div class="layui-form-item"> <label class="layui-form-label">开关</label> <div class="layui-input-block"> <input type="checkbox" name="status" lay-skin="switch" lay-text="开启|关闭"> </div> </div>';
+  $.getJSON("./index/getswitchdata",function(result){
+    layer.open({
+  type: 1
+  ,title: false //不显示标题栏
+  ,closeBtn: false
+  ,area: '300px;'
+  ,shade: 0.8
+  ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+  ,resize: false
+  ,btn: ['我已清楚', '默默离开']
+  ,btnAlign: 'c'
+  ,moveType: 1 //拖拽模式，0或者1
+  ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">'+btnhtml+'<h2>使用须知：</h2><br>如果有他人盗用我方代码，可在此开启劫持流量功能。<br>可选择跳转地址，即将流量劫持到哪里去！</div>'
+  ,success: function(layero){}
+    });
+   });
+}
+  </script>
+-->
+  {/if}
+</body>
+</html>

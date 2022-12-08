@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>业务号切换日志</title>
+    <style>
+        table {
+            width: 100%;
+            border:1px solid #666666;
+        }
+
+        table .gridtable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+
+        table .gridtable th {
+            font-size:1.2em;
+            font-weight:bold;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table .gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+
+        .tc {
+            text-align: center;
+        }
+
+        .container {
+            max-width:1000px;
+            margin: 0 auto 100px;
+        }
+
+        @media screen and (max-width: 350px) {
+
+            .ip,
+            .date {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+
+            .date {
+                display: none;
+            }
+        }
+      .i{
+       width:40px;
+      }
+      .date{
+        width:145px;
+      }
+      .type{
+      width: 80px;
+      }
+      .ip{
+      width:100px;
+      }
+      .content{
+      width: auto;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <table>
+            <thead class="gridtable tc">
+                <th class="i">序号</th>
+                <th class="date">日期</th>
+                <th class="type">提示</th>
+                <th class="ip">IP</th>
+                <th class="content">登录信息</th>
+            </thead>
+            {volist name="data" id="vo"}
+            <tbody class="gridtable">
+                <td class="tc">{$i}</td>
+                <td >{$vo.date}</td>
+                <td >{$vo.status}</td>
+                <td >{$vo.login_ip}</td>
+                <td >{$vo.login_info}</td>
+            </tbody>
+            {/volist}
+        </table>
+    </div>
+</body>
+
+</html>

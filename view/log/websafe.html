@@ -1,0 +1,52 @@
+{include file="common/header" /}
+    <table id="safelog" lay-filter="test"></table>
+    <script>
+        layui.use('table', function () {
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#safelog',
+            url: '/log/webcodesafedata' //数据接口
+                ,
+            page: true //开启分页
+                ,
+            limit: 100,
+            limits: [50, 100, 200, 300],
+            skin: 'line' //行边框风格
+                ,
+            even: true //开启隔行背景
+                ,
+            size: 'sm' //小尺寸的表格
+                ,
+            cols: [
+                [ //表头
+                    {
+                        field: 'id',
+                        title: '序号',
+                        width: 70
+                    }, {
+                        field: 'url',
+                        title: '链接',
+                        cellMinWidth: 300
+                    }, {
+                        field: 'count',
+                        title: '次数',
+                        width: 70,
+                    }, {
+                        field: 'ip',
+                        title: 'IP',
+                        width: 145
+                    }, {
+                        field: 'date',
+                        title: '日期',
+                        width: 145
+                    },
+                ]
+            ],
+        });
+    });
+    </script>
+</body>
+
+</html>

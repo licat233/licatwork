@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測試查詢</title>
+    <style>
+        body{ width: 100%; height: 100vh;} .container{ padding: 10px; margin: 0; display: grid; place-content: center; width: 100%; height: 30vh;} .zySearch{ position: relative; margin: 40px auto 0 auto; display: flex;} .zySearch .search-img{ background: url("/static/images/chicken.gif") no-repeat scroll left top transparent; display: block; height: 0; left: 39%; margin-left: -12px; position: absolute; top: 10px; width: 24px;} .zySearch .search-input{ color: #999; border: 1px solid #D0D0D0; height: 33px; line-height: 33px; margin-right: 5px; padding: 0 10px; width: 250px;} .zySearch .search-btn{ background: none repeat scroll 0 0 #F04243; border: 0 none; border-radius: 0; color: #FFFFFF; cursor: pointer; height: 35px; line-height: 33px; padding: 0; vertical-align: baseline !important; width: 76px; text-align: center; vertical-align: middle; white-space: nowrap; margin-bottom: 0; font-weight: normal; font-size: 14px; display: inline-block; position: relative;} .resultbox{ padding:10px; margin: 0 auto; display:grid; place-content: center; width:100%; max-width: 900px;} .content{ counter-reset: n;} .content h3::before{ counter-increment: n; content:counter(n)".";} @keyframes AfadeDown{ 0%{ -webkit-transform: translate3d(0,-100%,0); transform: translate3d(0,-100%,0); opacity: 0;} 100%{ -webkit-transform: none; transform: none; opacity: 1;}} .fadeDown{ -webkit-animation: AfadeDown .4s; animation: AfadeDown .4s;} .info{ display: flex; position: relative; flex-wrap: wrap; margin-top: 50px; border-top: 1px solid; padding: 10px;} .info>div{ margin-right: 10px; min-width: 100px;} .info>div:last-child{ margin-right: 0;} .paper{display:none; width: 100%; padding:10px;} .title{ border-bottom: 1px solid; padding: 10px; text-align: center; font-size:1.2em;}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="zySearch" id="zySearch"></div>
+    </div>
+    <div class="resultbox">
+        <div class="paper fadeDown" id="paperbox">
+            <div class="title">肌膚測試</div>
+            <div class="content" id="paperdoc">
+            </div>
+            <div class="info">
+                <div>編碼：<span id="code"></span></div>
+                <div>時間<span id="create_at"></span></div>
+                <div>IP：<span id="ip"></span></div>
+                <div>來源：<span id="url"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript">
+        !function($,undefined){$.fn.zySearch=function(options,param){var otherArgs=Array.prototype.slice.call(arguments,1);if("string"==typeof options){var fn=this[0][options];if($.isFunction(fn))return fn.apply(this,otherArgs);throw"zySearch - No such method: "+options}return this.each((function(){var para={},self=this,defaults={width:"355",height:"33",callback:function(keyword){console.info("搜索的关键字"),console.info(keyword)}};para=$.extend(defaults,options),this.init=function(){this.createHtml()},this.createHtml=function(){var html="";html+='<b class="search-img"></b>',html+='<input id="searchInput" class="search-input" type="text" placeholder="請輸入編號">',html+='<button class="search-btn btn">搜索</button>',$(self).append(html),this.addEvent()},this.addEvent=function(){"320px"!=$("."+para.parentClass).css("width")?($("#searchInput").unbind("focus").unbind("blur"),$(".search-img").css({top:"0px",height:"0px"}),$("#searchInput").blur(),$("#searchInput").bind("focus",(function(){$(".search-img").animate({top:"-23px",height:"24px"},"slow")})),$("#searchInput").bind("blur",(function(){$(".search-img").animate({top:"0px",height:"0"},"slow")}))):($("#searchInput").unbind("focus").unbind("blur"),$(".search-img").css({top:"1px",height:"0px"}),$("#searchInput").blur(),$("#searchInput").bind("focus",(function(){$(".search-img").animate({top:"-40px",height:"24px"},"slow")})),$("#searchInput").bind("blur",(function(){$(".search-img").animate({top:"1px",height:"0px"},"slow")}))),$(window).resize((function(){"320px"!=$("."+para.parentClass).css("width")?($("#searchInput").unbind("focus").unbind("blur"),$(".search-img").css({top:"0px",height:"0px"}),$("#searchInput").blur(),$("#searchInput").bind("focus",(function(){$(".search-img").animate({top:"-23px",height:"24px"},"slow")})),$("#searchInput").bind("blur",(function(){$(".search-img").animate({top:"0px",height:"0"},"slow")}))):($("#searchInput").unbind("focus").unbind("blur"),$(".search-img").css({top:"1px",height:"0px"}),$("#searchInput").blur(),$("#searchInput").bind("focus",(function(){$(".search-img").animate({top:"-40px",height:"24px"},"slow")})),$("#searchInput").bind("blur",(function(){$(".search-img").animate({top:"1px",height:"0px"},"slow")})))})),document.onkeydown=function(event){var e=event||window.event||arguments.callee.caller.arguments[0];e&&13==e.keyCode&&para.callback($("#searchInput").val())},$(".search-btn").bind("click",(function(){para.callback($("#searchInput").val())}))},this.init()}))}}(jQuery);
+
+        $("#zySearch").zySearch({ "width": "355", "height": "33", "parentClass": "pageTitle", "callback": function (test){ if(test==code.innerText)return; $.ajax({type:'GET',url:'//newworkbench.com/api/searchskintest',data:{code:test},async:false,dataType:'json',success:function (res){ renderPaper(res.result)}})}}); function renderPaper(res){ if(!res) return; code.innerText=res.code; create_at.innerText=res.create_at; ip.innerText=res.ip; url.innerText=res.origin; var fge=document.createDocumentFragment(); var paper=JSON.parse(res.paper); Object.getOwnPropertyNames(paper).forEach((key)=>{ var question=key; var answer=paper[key]; var hE=document.createElement("h3"); hE.innerHTML=question; var oE=document.createElement("ul"); answer.forEach(function(item){ var liE=document.createElement("li"); liE.innerText=item; oE.appendChild(liE)}); fge.appendChild(hE); fge.appendChild(oE)}); paperdoc.appendChild(fge); paperbox.style.display="block"}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,210 @@
+{include file="common/header" /}
+<style>
+.checkstyle{
+            -webkit-transform: translateY(-3px);
+            -ms-transform: translateY(-3px);
+            transform: translateY(-3px);
+            /*text-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 3px #555;*/
+            box-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 4px #333;
+            /*background-color:#00e6ff !important;*/
+            color: #ffffff !important;
+}
+  .layui-table-header tr{
+    -webkit-transform: translateY(-3px);
+    -ms-transform: translateY(-3px);
+    transform: translateY(-3px);
+    /*text-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 3px #555;*/
+    box-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 4px #333;
+    background-color:#007aff !important;
+    color: #ffffff !important;
+  }
+.markstyle{
+    color: #D0CECE!important;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #fff;
+  }
+  tr:hover{
+    -webkit-transform: translateY(-3px);
+    -ms-transform: translateY(-3px);
+    transform: translateY(-3px);
+    /*border: 1px solide white;*/
+    font-weight:bold !important;
+  }
+  .officebtn:active{
+    border: 1px solid #C9C9C9 !important;
+    background-color: #fff !important;
+    color: #555 !important;
+  }
+  .officebtn:focus{
+    border: 1px solid #C9C9C9 !important;
+    background-color: #fff !important;
+    color: #555 !important;
+  }
+  
+  .btn-active{
+    border: 1px solid #C9C9C9 !important;
+    background-color: #fff !important;
+    color: #555 !important;
+  }
+</style>
+<table class="layui-hide" id="user" lay-filter="user"></table>
+<script type="text/html" id="Usertoolbar">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData"><i class="layui-icon">&#xe770;</i>批量修改</button>
+    <button class="layui-btn layui-btn-sm layui-btn-warm" lay-event="probReset"><i class="layui-icon">&#xe666;</i>概率重置</button>
+    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="addUser"><i class="layui-icon">&#xe608;</i>添加账号</button>
+    <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete"><i class="layui-icon">&#xe640;</i>批量删除</button>
+    <button class="layui-btn layui-btn-sm layui-bg-cyan officebtn" lay-event="xianggou" lay-office="412"><i class="layui-icon">&#xe613;</i>享购</button>
+    <button class="layui-btn layui-btn-sm layui-bg-cyan officebtn" lay-event="newde" lay-office="707"><i class="layui-icon">&#xe613;</i>扭德</button>
+    <button class="layui-btn layui-btn-sm layui-bg-cyan officebtn" lay-event="wuxing" lay-office="808"><i class="layui-icon">&#xe613;</i>伍行</button>
+  </div>
+</script>
+
+<script type="text/html" id="Userbar">
+  <a class="layui-btn layui-btn-xs" lay-event="edit" title="编辑"><i class="layui-icon">&#xe642;</i></a>
+  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+</script>
+
+<script type="text/html" id="switchTpl">
+  <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="在线|离线" lay-filter="user" {{ d.status === 1 ? 'checked' : '' }}>
+</script>
+
+<script type="text/html" id="probstyle">
+{{Math.round(d.prob_PCT*100)/100+"%"}}
+</script>
+
+<script type="text/html" id="paasstyle">
+<span style="text-align: center;">{{d.paas_name.split("<=")[0]}}</span><small style="color: #D0CECE!important;"><=</small><small class=markstyle>{{d.paas_name.split("<=")[1]}}</small>
+</script>
+
+<script type="text/html" id="namestyle">
+<span style="color:{{d.color}}">{{d.name}}</span>
+</script>
+
+<script type="text/html" id="accountstyle">
+<span style="color:{{d.color}}">{{d.account}}</span>
+</script>
+
+<script src="/static/js/userlist.js?update=202207041110"></script>
+
+<!--账户编辑窗口-->
+<div class="site-text" style="margin: 5%; display: none" id="userwindow" target="">
+  <form class="layui-form" id="userform" method="post" lay-filter="user">
+    <div class="layui-form-item">
+      <label class="layui-form-label">姓名</label>
+      <div class="layui-input-block">
+        <input type="text" id="name" name="name" lay-verify="user" label="姓名：" autocomplete="off" placeholder="使用者姓名"
+          class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">账号</label>
+      <div class="layui-input-block">
+        <input type="text" id="account" name="account" lay-verify="user" autocomplete="off" placeholder="账号"
+          class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">状态</label>
+      <div class="layui-input-block">
+       <select name="status" lay-verify="user" id="status">
+          <option value="no" selected>不修改</option>
+          <option value="1">在线</option>
+          <option value="0">离线</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">平台</label>
+      <div class="layui-input-block">
+        <select name="paas_id" lay-verify="user" id="paas_id">
+          {foreach $paas_name as $key=>$pn}
+          <option value="{$key}">{$pn}</option>
+          {/foreach}
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-form-label">概率</div>
+      <br/>
+      <div class="layui-input-block">
+        <!-- <input type="text" id="prob" name="prob" lay-verify="user" autocomplete="off" class="layui-input"> -->
+        <div id="prob_PCT" lay-verify="user" name="prob_PCT"></div>
+      </div>
+    </div>
+    <!--
+    <div class="layui-form-item">
+      <label class="layui-form-label">时间</label>
+      <div class="layui-input-inline">
+        <input type="text" class="layui-input" id="datetime" placeholder="yyyy-MM-dd HH:mm:ss">
+      </div>
+    </div>-->
+    <div class="layui-form-item">
+      <label class="layui-form-label">PC链接</label>
+      <div class="layui-input-block">
+        <input type="text" id="link_pc" name="link_pc" lay-verify="user" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">MB链接</label>
+      <div class="layui-input-block">
+        <input type="text" id="link_mb" name="link_mb" lay-verify="user" autocomplete="off"  class="layui-input">
+      </div>
+    </div>
+    {if condition="$power == 7"}
+    <div class="layui-form-item">
+      <label class="layui-form-label">所属办公室</label>
+      <div class="layui-input-block">
+        <input type="text" id="office" name="office" lay-verify="user" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    {/if}
+  </form>
+</div>
+<!--END账户编辑窗口-->
+<!--批量修改窗口-->
+<div class="site-text" style="margin: 5%; display: none" id="batchuserwindow" target="">
+  <form class="layui-form" id="batchuserform" method="post">
+    <div class="layui-form-item">
+      <label class="layui-form-label">状态</label>
+      <div class="layui-input-block">
+        <select name="batchstatus" id="batchstatus">
+          <option value="no" selected>不修改</option>
+          <option value="1">在线</option>
+          <option value="0">离线</option>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">平台</label>
+      <div class="layui-input-block">
+        <select name="batchpaas_id" id="batchpaas_id">
+          <option value="no" selected>不修改</option>
+          {foreach $paas_name as $key=>$pn}
+          <option value="{$key}">{$pn}</option>
+          {/foreach}
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">概率</label>
+      <div class="layui-input-block">
+        <select name="batchprob" id="batchprob">
+          <option value="no" selected>不修改</option>
+          <option value="100">概率重置</option>
+        </select>
+        <!-- <div id="batchprob" lay-verify="user" name="batchprob"></div> -->
+      </div>
+    </div>
+    <!--
+    <div class="layui-form-item">
+      <label class="layui-form-label">时间</label>
+      <div class="layui-input-inline">
+        <input type="text" class="layui-input" name="batchdatetime" id="batchdatetime" placeholder="yyyy-MM-dd HH:mm:ss">
+      </div>
+    </div>-->
+  </form>
+</div>
+<!--END批量修改窗口-->
+{include file="common/footer" /}

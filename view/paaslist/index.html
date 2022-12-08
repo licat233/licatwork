@@ -1,0 +1,200 @@
+{include file="common/header" /}
+    <style>
+    .paas-menu{
+      position:fixed;
+      background-color: aliceblue;
+      box-shadow: 0 0 8px grey;
+      z-index: 9;
+    }
+      .paas-menu>ul{
+          list-style-type: none;
+          overflow-y: auto;
+          height: 90vh;
+      }
+    .paas-menu>ul>li{
+      height:30px;
+      line-height: 30px;
+      padding:0 10px;
+      border: 1px solid white;
+      color:white;
+      cursor: pointer;
+      word-break: keep-all;
+    }
+    .paas-menu>ul>li:hover {
+            -webkit-transform: translateY(-3px);
+            -ms-transform: translateY(-3px);
+            transform: translateY(-3px);
+            text-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 3px #555;
+            box-shadow: 0px 1px 0px #999, 0px 2px 0px #777, 0px 3px 4px #333;
+             
+            background: #00e6ff !important;
+            color: #fff;
+        }
+    @media screen and (max-width: 800px) {
+      .paas-menu{
+        top:0;
+        position: relative;
+        max-width: 800px;
+        margin-bottom:10px;
+      }
+      .paas-menu>ul{
+        list-style-type: none;
+        padding: 0;
+        overflow: auto;
+        margin: 0;
+        height: auto;
+      }
+      .paas-menu>ul>li{
+        white-space: nowrap;
+        position: relative;
+        cursor: pointer;
+        float: left;
+        list-style: none;
+      }
+    }
+    @media screen and (min-width: 800px) {
+      .paas-menu{
+        top:20px;
+        right:20px;
+      }
+    }
+  </style>
+<div class="paas-menu">
+  <ul>
+      {volist name="paass" id='paas'}
+      <li style="background-color:{$paas.color}" onclick="location.href='/paaslist#{$paas.id}'">{$paas.name}</li>
+      {/volist}
+      <li style="background-color:grey" onclick="location.href='/paaslist#add_paas'">添加平台项目</li>
+  </ul>
+</div>
+<div style="max-width:800px;margin:auto;padding:auto;">
+<script src="/static/js/paaslist.js"></script>
+<div style="padding: 20px; background-color: #F2F2F2;text-align: center;">
+  <div class="layui-row layui-col-space15">  
+    {volist name="paass" id='paas'}
+    <div class="layui-col-md12">
+      <div class="layui-card">
+        <div class="layui-card-header" style="background-color:{$paas.color}"><h3 onclick="javascript:editpaaswindow({$paas.id})" id="{$paas.id}" style="color:white;font-weight:700">{$paas.name}</h3></div>
+        <div class="layui-card-body">
+          <table class="layui-table" lay-skin="line" id="paas">
+            <colgroup>
+              <col>
+            </colgroup>
+            <!-- <thead>
+              <tr>
+                <th></th>
+              </tr>
+            </thead> -->
+            <tbody id='paastb'>
+              {volist name="paas['web']" id="web_v"}
+              <tr>
+                <td onclick="javascript:editwebwindow({$web_v['id']})">{$web_v['url']}</td>
+              </tr>
+              {/volist}
+              <tr>
+                <td><button id="addurl" onclick="javascript:addwebwindow({$paas.id})"
+                  type="button" data-type="auto" class="layui-btn-sm layui-btn-fluid layui-btn-primary"><i
+                      class="layui-icon">&#xe608;</i>&nbsp;添加新链接</button></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+    {/volist}
+    <div class="layui-col-md12" id="add_paas">
+      <div class="layui-card">
+        <div class="layui-card-header"><button style="font-size:16px;font-weight:bolder;margin-top:8px;" 
+          id="addurl" onclick="javascript:addpaaswindow()"
+          type="button" data-type="auto" class="layui-btn-sm layui-btn-fluid"><i
+              class="layui-icon">&#xe608;</i>&nbsp;添加新平台项目</button></div>
+        <!-- <div class="layui-card-body">
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--添加链接窗口-->
+<div class="site-text" style="margin: 5%; display: none" id="addwebwindow">
+    <label>请填写链接：</label>
+    <br/>
+        <input type="text" id="url" name="url" class="layui-input">
+      <hr class="layui-bg-gray">
+    <label>JS插件：</label>
+    <br/>
+    <textarea type="text" id="plugin" name="plugin" class="layui-textarea"></textarea>
+</div>
+<!--END添加链接窗口-->
+<!--编辑链接窗口-->
+<div class="site-text" style="margin: 5%; display: none" id="editwebwindow">
+    <button type="button" style="float: right;" onclick="javascript:deleteweb()" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger">删除链接</button>
+    <!-- <hr class="layui-bg-gray"> -->
+    <form class="layui-form" action="">
+        <!-- <label>ID：</label>
+        <br/> -->
+            <input type="text" id="editid" name="editid" style="width:40px;display: none;" class="layui-input" disabled>
+          <!-- <hr class="layui-bg-gray"> -->
+    <label>链接：</label>
+    <br/>
+        <input type="text" id="editurl" name="editurl" class="layui-input">
+      <hr class="layui-bg-gray">
+      <div class="layui-form-item">
+          <label class="layui-form-label">所属平台：</label>
+          <div class="layui-input-block">
+            <select name="editpaas_id" id="editpaas_id" lay-filter="editpaas_id">
+              <!-- <option value="no" selected>不修改</option> -->
+              {foreach $paas_name as $key=>$pn}
+              <option value="{$key}">{$pn}</option>
+              {/foreach}
+            </select>
+          </div>
+        </div>
+      <hr class="layui-bg-gray">
+    <label>JS插件：</label>
+    <textarea id="editplugin" name="editplugin" class="layui-textarea"></textarea>
+   </form>
+</div>
+<!--END编辑链接窗口-->
+<!--添加平台窗口-->
+<div class="site-text" style="margin: 5%;margin-top:0; display: none" id="addpaaswindow">
+  <button id="delpaas" type="button" style="float: right;margin:0;" onclick="javascript:deletepaas()" class="layui-btn layui-btn-sm layui-btn-radius layui-btn-danger">删除平台</button>
+  <input type="text" id="paasid" name="paasid" style="width:40px;display: none;" class="layui-input" disabled>
+    <div class="layui-form-item">
+        <label class="layui-form-label">平台项目:</label>
+        <div class="layui-input-block">
+          <input type="text" id="name" name="name" placeholder="平台项目名称"
+            class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+          <label class="layui-form-label">负责人:</label>
+          <div class="layui-input-block">
+            <input type="text" id="admine" name="admine" placeholder="负责人姓名"
+              class="layui-input">
+          </div>
+        </div>
+        <label>统计代码&lt;/head&gt;前：</label>
+        <br/>
+            <textarea id="code1" onfocus="showinput(this)" onblur="hideinput(this)"  name="code1" placeholder="请输入统计代码" class="layui-textarea" style="z-index: 19891016;"></textarea>
+          <hr class="layui-bg-gray">
+    <label>统计代码&lt;body&gt;后：</label>
+        <br/>
+            <textarea id="code2" onfocus="showinput(this)" onblur="hideinput(this)" name="code2" placeholder="请输入统计代码" class="layui-textarea" style="z-index: 19891016;"></textarea>
+            <hr class="layui-bg-gray">
+    <label>统计代码&lt;/body&gt;前：</label>
+        <br/>
+            <textarea id="code3" onfocus="showinput(this)" onblur="hideinput(this)" name="code3" placeholder="请输入统计代码" class="layui-textarea" style="z-index: 19891016;"></textarea>
+</div>
+  <script>
+  let showinput=(e)=>{
+    e.style.height="300px";
+  }
+  let hideinput=(e)=>{
+    e.style.height="40px";
+  }
+  </script>
+<!--END添加平台窗口-->
+</div>
+{include file="common/footer" /}

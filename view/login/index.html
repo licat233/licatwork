@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="utf-8">
+	<title>享购工作台登陆界面</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" media="screen" href="/static/plugin/login/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/plugin/login/css/reset.css" />
+	<script src="../static/js/jquery-3.4.1.min.js"></script>
+	<script src="../static/win10ui/component/layer-v3.0.3/layer/layer.js"></script>
+</head>
+
+<body onkeydown="on_return();">
+
+	<div id="particles-js">
+		<div class="login">
+			<div class="win10-login-box-square">
+				<img src="../static/win10ui/img/xglogo.png" class="content" />
+			</div>
+			<div class="login-top">
+				工作人员登录
+			</div>
+			<div class="login-center clearfix">
+				<!--<div class="login-center-img"><img src="/static/plugin/login/img/name.png" /></div>-->
+				<div class="login-center-input">
+					<input type="text" name="" value="" placeholder="请输入办公室编号" id="office" onfocus="this.placeholder=''"
+						onblur="this.placeholder='请输入办公室编号'" />
+					<div class="login-center-input-text">办公室</div>
+				</div>
+			</div>
+			<div class="login-center clearfix">
+				<!--<div class="login-center-img"><img src="/static/plugin/login/img/name.png" /></div>-->
+				<div class="login-center-input">
+					<input type="text" name="" value="" placeholder="请输入用户名" id="login-name"
+						onfocus="this.placeholder=''" onblur="this.placeholder='请输入用户名'" />
+					<div class="login-center-input-text">用户名</div>
+				</div>
+			</div>
+			<div class="login-center clearfix">
+				<!--<div class="login-center-img"><img src="/static/plugin/login/img/password.png" /></div>-->
+				<div class="login-center-input">
+					<input type="password" name="" value="" placeholder="请输入密码" id="login-paasword"
+						onfocus="this.placeholder=''" onblur="this.placeholder='请输入密码'" />
+					<div class="login-center-input-text">密码</div>
+				</div>
+			</div>
+			<div class="login-button" id="btn-login">
+				登&emsp;录
+			</div>
+		</div>
+      <div class="sk-rotating-plane"></div>
+      <canvas id="canvas" style="background:#000;width:1920;height:1080"></canvas>
+	</div>
+<script src="../static/win10ui/js/login.js"></script>
+</body>
+
+</html>

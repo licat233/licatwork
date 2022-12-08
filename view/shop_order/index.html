@@ -1,0 +1,358 @@
+{include file="common/header" /}
+<style>
+    /* layui-table 表格内容允许换行 */
+    .layui-table-cell {
+        height: auto;
+    }
+
+    .product_list_info {
+        padding-left: 1em;
+        list-style-type: inherit;
+    }
+
+    .product_list_info li {
+        border-bottom: 1px solid;
+        list-style: unset;
+    }
+
+    .layui-table-checked {
+        background-color: #7fffd4 !important;
+    }
+
+    table {
+        padding: 0 10px;
+    }
+
+    .unhandlerstyle {
+        padding: 1px;
+        font-weight: bold;
+        color: #5FB878;
+        border: 1px solid #5FB878;
+        border-radius: 3px;
+        user-select: none;
+    }
+
+    .handlerstyle {
+        padding: 1px;
+        color: #393D49;
+        border: 1px solid #393D49;
+        border-radius: 3px;
+        user-select: none;
+    }
+
+    .cancalstyle {
+        padding: 1px;
+        color: #FFB800;
+        border: 1px solid #FFB800;
+        border-radius: 3px;
+        user-select: none;
+    }
+
+    .errorstyle {
+        padding: 1px;
+        color: #FF5722;
+        border: 1px solid #FF5722;
+        border-radius: 3px;
+        user-select: none;
+    }
+</style>
+<script type="text/html" id="switchStatus">
+    {{#  if(d.status===0||d.status===1){ }}
+       <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="未处理|已处理" lay-filter="statusSwitch" {{d.status == 0 ? 'checked' : ''}} >
+    {{#  } else if(d.status === 2){ }}
+       <div class="layui-form-mid layui-word-aux">订单已取消</div>
+    {{#  } }}
+</script>
+<script type="text/html" id="orderTool">
+  <a class="layui-btn layui-btn-xs" lay-event="more">更多 <i class="layui-icon layui-icon-down"></i></a>
+</script>
+<table id="shoporder" lay-filter="test"></table>
+<script>
+    layui.use("table", function () {
+        var table = layui.table, form = layui.form, dropdown = layui.dropdown;
+        //第一个实例
+        table.render({
+            title: "商品订单表",
+            elem: "#shoporder",
+            id: "shoporderTable",
+            url: "/shop_order/orderdata", //数据接口
+            page: true, //开启分页
+            limit: 100,
+            limits: [50, 100, 200, 300],
+            skin: "line", //行边框风格
+            even: true, //开启隔行背景
+            // size: "sm", //小尺寸的表格
+            toolbar: true,
+            cols: [
+                [
+                    //表头
+                    {
+                        field: "id",
+                        title: "ID",
+                        hide: true
+                    },
+                    {
+                        field: "name",
+                        title: "收货人",
+                        width: 80,
+                    },
+                    {
+                        field: "phone_number",
+                        title: "联系电话",
+                        width: 120,
+                    },
+                    {
+                        field: "address",
+                        title: "收货地址",
+                    },
+                    {
+                        field: "pay_method",
+                        title: "支付方式",
+                        width: 100,
+                    },
+                    {
+                        field: "product_list",
+                        title: "产品清单",
+                        minWidth: 300,
+                        templet: function (d) {
+                            var html = product_info_handle(d.product_list);
+                            return html;
+                        }
+                    },
+                    {
+                        field: "product_num",
+                        title: "数量",
+                        width: 80,
+                    },
+                    {
+                        field: "total_price",
+                        title: "总价格",
+                        width: 100,
+                    },
+                    {
+                        field: "remark",
+                        title: "备注",
+                    },
+                    {
+                        field: "submit_at",
+                        title: "提交时间",
+                    },
+                    {
+                        field: "submit_ip",
+                        title: "提交IP",
+                        hide: true,
+                    },
+                    {
+                        field: "brand",
+                        title: "品牌",
+                        width: 120,
+                    },
+                    {
+                        field: "order_number",
+                        title: "订单编号",
+                    },
+                    {
+                        field: "status",
+                        title: "状态",
+                        width: 90,
+                        // templet: "#switchStatus",
+                        unresize: true,
+                        templet: function (d) {
+                            switch (d.status) {
+                                case 0:
+                                    return "<span class=unhandlerstyle>未处理</span>";
+                                case 1:
+                                    return "<span class=handlerstyle>已处理</span>";
+                                case 2:
+                                    return "<span class=cancalstyle>已取消</span>";
+                                default:
+                                    return "<span class=errorstyle>状态码:" + d + "</span>";
+                            }
+                        },
+                    }, {
+                        field: "tools",
+                        title: "操作",
+                        width: 85,
+                        templet: "#orderTool",
+                        unresize: true,
+                    },
+                ],
+            ],
+            done: function () {
+
+            },
+        });
+        //row双击监听
+        table.on("rowDouble(test)", function (obj) {
+            var data = obj.data;
+            layer.alert(objinfo(obj.data));
+            //标注选中样式
+            obj.tr
+                .addClass("layui-table-checked")
+                .siblings()
+                .removeClass("layui-table-checked");
+        });
+        //监听状态切换按钮
+        form.on("switch(statusSwitch)", function (obj) {
+            $.post('/shop_order/switchStatus',
+                { id: this.value, status: obj.elem.checked ? 0 : 1 },
+                function (resp) {
+                    if (resp.code === 200) {
+                        layer.msg("修改成功");
+                    } else {
+                        layer.msg("修改失败");
+                    }
+                });
+        });
+        //
+        table.on('tool(test)', function (obj) {
+            var rowdata = obj.data, layEvent = obj.event;;
+            if (layEvent === 'more') {
+                //下拉菜单
+                dropdown.render({
+                    elem: this //触发事件的 DOM 对象
+                    , show: true //外部事件触发即显示
+                    , data: [{
+                        title: '标记已处理'
+                        , id: 'handleOrder'
+                    }, {
+                        title: '标记未处理'
+                        , id: 'unhandleOrder'
+                    }, {
+                        title: '编辑订单'
+                        , id: 'editOrder'
+                    }, {
+                        title: '取消订单'
+                        , id: 'cancelOrder'
+                    }, {
+                        title: '删除订单'
+                        , id: 'delOrder'
+                    }]
+                    , click: function (menudata) {
+                        switch (menudata.id) {
+                            case 'handleOrder':
+                                if (rowdata.status === 1) {
+                                    layer.msg("该订单已处理");
+                                } else {
+                                    $.post('/shop_order/switchStatus',
+                                        { id: rowdata.id, status: 1 },
+                                        function (resp) {
+                                            if (resp.code === 200) {
+                                                layer.msg("修改成功");
+                                                table.reload('shoporderTable');
+                                            } else {
+                                                layer.msg("修改失败");
+                                            }
+                                        });
+                                }
+                                break;
+                            case 'unhandleOrder':
+                                if (rowdata.status === 0) {
+                                    layer.msg("该订单未处理");
+                                } else {
+                                    $.post('/shop_order/switchStatus',
+                                        { id: rowdata.id, status: 0 },
+                                        function (resp) {
+                                            if (resp.code === 200) {
+                                                layer.msg("修改成功");
+                                                table.reload('shoporderTable');
+                                            } else if (resp.code === 400) {
+                                                layer.msg("该订单已是未处理状态");
+                                            } else {
+                                                layer.msg("修改失败");
+                                            }
+                                        });
+                                }
+                                break;
+                            case 'editOrder':
+                                layer.msg('编辑功能未开放');
+                                break;
+                            case 'cancelOrder':
+                                layer.confirm('注意！⚠️ <br/>确定取消该订单吗？', function (index) {
+                                    $.post('/shop_order/cancelOrder', { order_number: rowdata.order_number }, function (resp) {
+                                        if (resp.code === 200) {
+                                            layer.msg("订单已被取消");
+                                            table.reload('shoporderTable');
+                                            layer.close(index);
+                                        } else {
+                                            layer.msg("订单取消失败");
+                                        }
+                                    });
+                                });
+                                break;
+                            case 'delOrder':
+                                layer.confirm('注意！⚠️ <br/>真的删除该订单么？', function (index) {
+                                    layer.confirm('再次提示！⚠️ <br/>真的删除该订单么？', function (index) {
+                                        $.post('/shop_order/deleteOrder', { id: rowdata.id }, function (resp) {
+                                            if (resp.code === 200) {
+                                                layer.msg("删除成功");
+                                                obj.del();
+                                                layer.close(index);
+                                            } else {
+                                                layer.msg("删除失败");
+                                            }
+                                        });
+                                    });
+                                });
+                                break;
+                        }
+                    }
+                    , align: 'right' //右对齐弹出（v2.6.8 新增）
+                    , style: 'box-shadow: 1px 1px 10px rgb(0 0 0 / 12%);' //设置额外样式
+                });
+            };
+        });
+    });
+    function objinfo(obj) {
+        // var switchTemp = `<input type="checkbox" name="status" value="${obj.id}" lay-skin="switch" lay-text="未处理|已处理" ${obj.status ? '':'checked'}><br/>`;
+        var statusstr = "已处理";
+        if (obj.status===0){
+            statusstr = "未处理";
+        }else if(obj.status===1){
+            statusstr = "已处理";
+        }else if(obj.status===2){
+            statusstr = "已取消";
+        }else{
+            statusstr = "状态码:" + obj.status;
+        }
+        
+        var info = `id:${obj.id} <br/>收货人：${obj.name} <br/>联系电话：${obj.phone_number} <br/>收货地址：${obj.address} <br/>支付方式：${obj.pay_method} <br/>订单编号：${obj.order_number} <br/>产品清单：${product_list_handle(obj.product_list)} <br/>总数量：${obj.product_num} <br/>总价格：${obj.total_price} <br/>备注：${obj.remark}<br/>提交时间：${obj.submit_at} <br/>提交IP：${obj.submit_ip} <br/>品牌：${obj.brand} <br/>状态：${statusstr}`;
+        return info;
+    }
+
+    function product_list_handle(str) {
+        if (typeof str !== 'string') return str;
+        try {
+            var parr = jQuery.parseJSON(str);
+            if (Object.prototype.toString.call(parr) !== '[object Array]') return str;
+            var res = "";
+            parr.forEach((item) => {
+                res += `<li>产品名称：${item.name}<br/>数量：${item.num}<br/>单价：${item.price}</li>`;
+            });
+            return "<br/><ol class=product_list_info >" + res + "</ol>";
+        } catch (e) {
+            return str;
+        }
+    }
+    function objTostr(obj) {
+        if (Object.prototype.toString.call(pobj) !== '[object Object]') return obj;
+        return JSON.stringify(obj);
+    }
+    function product_info_handle(str) {
+        if (typeof str !== 'string') return str;
+        try {
+            var parr = jQuery.parseJSON(str);
+            if (Object.prototype.toString.call(parr) !== '[object Array]') return str;
+            var res = "";
+            parr.forEach((item) => {
+                res += `<small>${item.name}，${item.num}件，单价:${item.price}</small><br/>`;
+            });
+            return res;
+        } catch (e) {
+            return str;
+        }
+    }
+</script>
+</body>
+
+</html>

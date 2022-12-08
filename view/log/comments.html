@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户留言板</title>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #666666;
+            word-break:break-all;
+word-wrap:break-word;
+border-collapse:collapse;
+margin:0;
+padding:0;
+        }
+
+        table .gridtable {
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+
+        table .gridtable th {
+            font-size: 1.2em;
+            font-weight: bold;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table .gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+
+        .tc {
+            text-align: center;
+        }
+
+        .container {
+            margin: 0 auto 100px;
+        }
+
+        @media screen and (max-width: 350px) {
+
+            .ip,
+            .date {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+
+            .date {
+                display: none;
+            }
+        }
+
+        .i {
+            width: 40px;
+        }
+
+        .date {
+            width: 145px;
+        }
+
+        .type {
+            width: 80px;
+        }
+
+        .ip {
+            width: 100px;
+            display: none;
+        }
+        
+        .weburl{
+            max-width: auto;
+        }
+
+        .content {
+            width: auto;
+        }
+
+        .layer_notice {
+                float: left;
+    background: #0092ff;
+    padding: 10px;
+    color: white;
+    line-height: 24px;
+        }
+        td{
+            max-width: 300px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <table>
+            <thead class="gridtable tc">
+                <tr>
+                <th class="i">序号</th>
+                <th class="date">日期</th>
+                <th class="type">类型</th>
+                <th class="ip">IP</th>
+                <th class="weburl">网址</th>
+                <th class="topic">主题</th>
+                <th class="content">留言</th>
+                </tr>
+            </thead>
+            <tbody class="gridtable">
+                {volist name="data" id="vo"}
+                <tr id={$vo.id}>
+                    <td class="tc i">{$i}</td>
+                    <td class="date">{$vo.date}</td>
+                    <td class="type">{$vo.type}</td>
+                    <td class="ip">{$vo.ip}</td>
+                    <td class="weburl">{$vo.weburl}</td>
+                    <td class="topic">{$vo.topic}</td>
+                    <td class="content">{$vo.content}</td>
+                </tr>
+                {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div id="notebox" style="display: none;">
+        <ul id="layer_notice" class="layer_notice" style="display: none;">
+            <li><a href="javascript:;"></a></li>
+            <li><a href="javascript:;"></a></li>
+            <li><a href="javascript:;"></a></li>
+        </ul>
+    </div>
+    <script src="/static/js/jquery-3.4.1.min.js"></script>
+    <script src="/static/layer/layer.js"></script>
+    <script>
+        var alltrE = document.getElementsByTagName("tr");
+        var notebox = document.getElementById("notebox");
+
+        Array.prototype.slice.call(alltrE).forEach(element => {
+            element.addEventListener("click", () => {
+                tips.call(element)
+            })
+        });
+
+        function tips() {
+            let note = document.querySelector(".layer_notice");
+            note.innerHTML = "";
+            $("#layer_notice").empty();
+            
+            Array.prototype.slice.call($("#" + this.getAttribute("id")).children()).forEach(ele => {
+                note.insertAdjacentHTML("beforeend", "<li>" + ele.innerHTML + "</li>");
+            })
+            notebox.style.display = "block";
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false, //不显示标题
+                content: $('.layer_notice'),
+                cancel: function (index) {
+                    notebox.style.display = "none";
+                    layer.close(index);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

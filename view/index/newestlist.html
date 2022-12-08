@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在用落地页</title>
+    <style>
+      body{
+        display: flex;
+        align-items:center;
+        justify-content:center;
+      }
+        table,
+        tr,
+        th,
+        td {
+            border: 1px solid;
+        }
+
+        td {
+            padding: 0 10px;
+            cursor: pointer;
+        }
+        td:first-child:hover{
+          color: red;
+          font-weight: bold;
+        }
+        td:last-child:hover {
+          color: blue;
+          font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>项目</th>
+                <th>链接</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan=3>Popin祛斑</td>
+                <td onclick="go(this)">www.annatw.com/a/1</td>
+            </tr>
+            <tr>
+                <td onclick="go(this)">www.skincare-info.com/share/1</td>
+            </tr>
+            <tr>
+                <td onclick="go(this)">www.twmimi.com</td>
+            </tr>
+            <tr>
+                <td>Popin抗老</td>
+                <td onclick="go(this)">www.lisatw.com</td>
+            </tr>
+             <tr>
+                <td rowspan=2>LINE祛斑</td>
+                <td onclick="go(this)">www.uiiyes.com?ldtag_cl</td>
+            </tr>
+             <tr>
+                <td onclick="go(this)">www.twanby.com?ldtag_cl</td>
+            </tr>
+            <tr>
+                <td rowspan=4>LINE抗衰</td>
+                <td onclick="go(this)">www.fofyui.com?ldtag_cl</td>
+            </tr>
+            <tr>
+                <td onclick="go(this)">www.iojiu.com?ldtag_cl</td>
+            </tr>
+            <tr>
+                <td onclick="go(this)">www.lisa-tw.com?ldtag_cl</td>
+            </tr>
+            <tr>
+                <td onclick="go(this)">www.twnews123.com?ldtag_cl</td>
+            </tr>
+            <tr>
+                <td>Today除斑</td>
+                <td onclick="go(this)">www.annatw.com/line/1</td>
+            </tr>
+            <tr>
+                <td  rowspan=2>Dable除斑</td>
+                <td onclick="go(this)">www.lquban.com</td>
+            </tr>
+           <tr>
+            <td onclick="go(this)">www.twnini.com</td>
+           </tr>
+            <tr>
+                <td>Dable抗老</td>
+                <td onclick="go(this)">www.talkskin.net/news/7/1</td>
+            </tr>
+            <tr>
+                <td>自操LINE祛斑</td>
+                <td onclick="go(this)">www.anna-tw.com?ldtag_cl</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        var go = (e) => {
+            let url = "https://" + e.innerHTML;
+            window.open(url);
+        };
+    </script>
+</body>
+
+</html>

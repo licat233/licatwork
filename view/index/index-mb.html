@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>享购工作台</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <script type="text/javascript" src="/static/win10ui/js/jquery-2.2.4.min.js"></script>
+    <link href="/static/win10ui/css/animate.css" rel="stylesheet">
+    <script type="text/javascript" src="/static/win10ui/component/layer-v3.0.3/layer/layer.js"></script>
+    <link rel="stylesheet" href="/static/win10ui/component/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="/static/win10ui/css/default.css" rel="stylesheet">
+    <link href="/static/win10ui/css/bg.css" rel="stylesheet">
+    <script type="text/javascript" src="/static/win10ui/js/win10.js"></script>
+    <script type="text/javascript" src="/static/win10ui/js/diy.js"></script>
+    
+    <style>
+        * {
+            font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+        }
+
+        /*磁贴自定义样式*/
+         .win10-block-content-text {
+             line-height: 44px;
+             text-align: center;
+             font-size: 16px;
+         }
+      .myico{
+        margin:0px;
+        padding:0px;
+        width:25px;
+        height:25px;
+      }
+    </style>
+    <script>
+   var deskStatusid = 0;
+        Win10.onReady(function () {
+
+            //设置壁纸
+          /*   Win10.setBgUrl({
+                 main: '/static/win10ui/img/wallpapers/sky.jpg',
+                 mobile: '/static/win10ui/img/wallpapers/sky.jpg',
+             }); */
+
+            Win10.setAnimated([
+                'animated flip',
+                'animated bounceIn',
+            ], 0.01);
+        });
+    </script>
+</head>
+<body>
+  <!--
+  <div class="bg0 pa">
+	<div class="bg1">享购</div>
+</div>
+
+<div class="hx-box pa">
+	<ul class="pr">
+		<li class="hx-k1 pa0">
+			<span></span>
+		</li>
+		<li class="hx-k2 pa0">
+			<span></span>
+		</li>
+		<li class="hx-k3 pa0">
+			<span></span>
+		</li>
+	</ul>
+</div>
+  -->
+<div id="win10" style="background:unset">
+    <div class="desktop">
+        <div id="win10-shortcuts" class="shortcuts-hidden">
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/userlist',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/userlist.png\'/>业务号管理')">
+                <img class="icon" src="/static/win10ui/img/icon/userlist.png"/>
+                <div class="title">业务号管理</div>
+            </div>
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/paaslist',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/paas.png\'/>平台管理')">
+                <img class="icon" src="/static/win10ui/img/icon/paas.png"/>
+                <div class="title">平台管理</div>
+            </div>
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/weblist',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/allweb.png\'/>落地页列表')">
+                <img class="icon" src="/static/win10ui/img/icon/allweb.png"/>
+                <div class="title">落地页URL</div>
+            </div>
+           <div class="shortcut" onclick="Win10.openUrl('https://docs.qq.com/blankpage/DRUV0ZlZWQnlMY09a',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/stat.png\'/>消耗统计')">
+                <img class="icon" src="/static/win10ui/img/icon/stat.png"/>
+                <div class="title">消耗统计</div>
+            </div>
+            <div class="shortcut" onclick="autoFullScreen()">
+                <img class="icon" src="/static/win10ui/img/icon/quanpin.png"/>
+                <div class="title">全屏</div>
+            </div>
+            
+            <div class="shortcut" onclick="Win10.openUrl('https://www.skincare-info.com/index/pop_log',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/pop_log.png\'/>POPin訪問日志')">
+                <img class="icon" src="/static/win10ui/img/icon/pop_log.png"/>
+                <div class="title">POPin訪問日志</div>
+            </div>
+          
+            <div class="shortcut" onclick="online_ip()">
+                <img class="icon" src="/static/win10ui/img/icon/online_ip.png"/>
+                <div class="title">POPin访问量</div>
+            </div>
+          
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/webcodesafe',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/jiankong.png\'/>WEB防盗监控')">
+                <img class="icon" src="/static/win10ui/img/icon/jiankong.png"/>
+                <div class="title">WEB防盗监控</div>
+            </div>
+          
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/login_error_log',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/loginlog.png\'/>登录失敗日志')">
+                <img class="icon" src="/static/win10ui/img/icon/loginlog.png"/>
+                <div class="title">登录失敗日志</div>
+            </div>
+          
+           <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/user_switch_log',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/lineswitch.png\'/>业务号切换记录')">
+                <img class="icon" src="/static/win10ui/img/icon/lineswitch.png"/>
+                <div class="title">业务号切换记录</div>
+            </div>
+          
+          <div class="shortcut" onclick="jiechiSET()">
+                <img class="icon" src="/static/win10ui/img/icon/TZswitch.png"/>
+                <div class="title">流量劫持</div>
+            </div>
+          
+           <div class="shortcut" onclick="Win10.openUrl('https://licat.work/index/adweblist','<img class=\'icon\' src=\'/static/win10ui/img/icon/adweblist.png\'/>享购广告落地页集合')">
+                <img class="icon" src="/static/win10ui/img/icon/adweblist.png"/>
+                <div class="title">落地页集合</div>
+            </div>
+
+            <div class="shortcut" onclick="Win10.openUrl('https://licat.work/log/user_comments',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/usercomment.png\'/>网友留言')">
+                <img class="icon" src="/static/win10ui/img/icon/usercomment.png"/>
+                <div class="title">网友留言</div>
+            </div>
+            <div class="shortcut" onclick="Win10.openUrl('https://online.licat.work/?adm=licatwork',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/onlinenum.png\'/>实时在线人数')">
+                <img class="icon" src="/static/win10ui/img/icon/onlinenum.png"/>
+                <div class="title">实时在线人数</div>
+            </div>
+            <div class="shortcut" onclick="Win10.openUrl('https://popin.licat.work/charge',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/money.png\'/>POPin实时消耗')">
+                <img class="icon" src="/static/win10ui/img/icon/money.png"/>
+                <div class="title">POPin实时消耗</div>
+            </div>
+           <div class="shortcut" onclick="Win10.openUrl('https://licat.work/index/newestlist',
+            '<img class=\'icon\' src=\'/static/win10ui/img/icon/money.png\'/>在跑落地页')">
+                <img class="icon" src="/static/win10ui/img/icon/nowweb.png"/>
+                <div class="title">在跑落地页</div>
+            </div>
+        </div>
+        <div id="win10-desktop-scene"></div>
+    </div>
+    <div id="win10_command_center" style="display:none">
+        <div class="title">
+            <h4 style="float: left">更新日志 </h4>
+            <span id="win10_btn_command_center_clean_all">全部清除</span>
+        </div>
+        <div class="msgs">
+          {volist name="updatelog" id="vo"}
+          {$vo}<br/>
+          {/volist}
+      </div>
+    </div>
+    <div id="win10_task_bar">
+        <div id="win10_btn_group_left" class="btn_group">
+            <div id="win10_btn_win_new" class="btn"><span class="fa fa-windows"></span></div>
+            <div class="btn" id="win10-btn-browser"><span class="fa fa-internet-explorer"></span></div>
+        </div>
+        <div id="win10_btn_group_middle" class="btn_group"></div>
+        <div id="win10_btn_group_right" class="btn_group">
+            <div class="btn" id="win10_btn_time"></div>
+            <div class="btn" id="win10_btn_command"><span id="win10-msg-nof" class="fa fa-comment-o"></span></div>
+            <div class="btn" id="win10_btn_show_desktop"></div>
+        </div>
+    </div>
+</div>
+<!--plugin-->
+</body>
+</html>
